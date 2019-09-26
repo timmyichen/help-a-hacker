@@ -82,7 +82,7 @@ export default () => {
           onClick={onLogin}
           disabled={loading}
         >
-          Sign Up
+          Log in
         </Button>
       </Form>
       <style jsx>{`

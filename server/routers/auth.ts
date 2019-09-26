@@ -1,13 +1,12 @@
 import * as express from 'express';
 import * as bluebird from 'bluebird';
-import * as asyncRouter from 'express-router-async';
 import * as passport from 'passport';
 import * as passportLocal from 'passport-local';
 import { User } from 'server/models';
 import { IUser, OId } from 'server/models/types';
 
 export interface ReqWithUser extends express.Request {
-  user?: IUser;
+  user: IUser;
 }
 
 const bcrypt = bluebird.promisifyAll(require('bcrypt-nodejs'));
@@ -21,6 +20,7 @@ function init() {
       User.findOne({
         email: email.toLowerCase(),
       })
+        .exec()
         .then(user => {
           if (!user) {
             return done(null, false, { message: 'Login failed' });
@@ -99,6 +99,7 @@ function init() {
 
   passport.deserializeUser((id: OId, done) => {
     User.findById(id)
+      .exec()
       .then(user => {
         if (!user) {
           return done(new Error('User not found'));
@@ -115,7 +116,7 @@ function init() {
       });
   });
 
-  const router = asyncRouter();
+  const router = express.Router();
 
   router.post(
     '/login',
@@ -192,13 +193,16 @@ function init() {
     res.json({ success: true });
   });
 
-  router.get('/data/user_info', (req: ReqWithUser, res: express.Response) => {
-    if (!req.user) {
-      return res.json({ error: 'not logged in' });
-    }
+  router.get(
+    '/api/user_info',
+    (req: express.Request, res: express.Response) => {
+      if (!req.user) {
+        return res.json({ error: 'not logged in' });
+      }
 
-    res.json(req.user);
-  });
+      res.json(req.user);
+    },
+  );
 
   return router;
 }

@@ -41,7 +41,7 @@ function Header({ isAuthed }: { isAuthed: boolean }) {
       <div className="route-group">
         {routes.right.map(route =>
           route.href === '/logout' ? (
-            <LogoutLink>
+            <LogoutLink key={`route-${route.href}`}>
               <a className="route">{route.label}</a>
             </LogoutLink>
           ) : (

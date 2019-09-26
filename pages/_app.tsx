@@ -20,10 +20,10 @@ class MyApp extends App {
       user = ctx.req.user;
     } else if (ctx.req) {
       const baseUrl = `${ctx.req.protocol}://${ctx.req.get('Host')}`;
-      const response = await fetch(baseUrl + '/data/user_info');
+      const response = await fetch(baseUrl + '/api/user_info');
       user = await response.json();
     } else {
-      const response = await fetch('/data/user_info');
+      const response = await fetch('/api/user_info');
       user = await response.json();
     }
 

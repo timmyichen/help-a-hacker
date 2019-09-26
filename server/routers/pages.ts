@@ -1,28 +1,34 @@
 import * as express from 'express';
-import * as asyncRouter from 'express-router-async';
 import nextjs from 'server/lib/next';
-import { requiresAnon } from 'server/middleware/auth';
+import { requiresAnon, requiresAuth } from 'server/middleware/auth';
 
-const router = asyncRouter();
+const router = express.Router();
+
+const anonRoutes = ['/join', '/login'];
+const authedRoutes = ['/account'];
 
 router.get('/', requiresAnon, (req: express.Request, res: express.Response) => {
   nextjs.render(req, res, '/');
 });
 
-router.get(
-  '/join',
-  requiresAnon,
-  (req: express.Request, res: express.Response) => {
-    nextjs.render(req, res, '/join');
-  },
-);
+anonRoutes.forEach(route => {
+  router.get(
+    route,
+    requiresAnon,
+    (req: express.Request, res: express.Response) => {
+      nextjs.render(req, res, route);
+    },
+  );
+});
 
-router.get(
-  '/login',
-  requiresAnon,
-  (req: express.Request, res: express.Response) => {
-    nextjs.render(req, res, '/login');
-  },
-);
+authedRoutes.forEach(route => {
+  router.get(
+    route,
+    requiresAuth,
+    (req: express.Request, res: express.Response) => {
+      nextjs.render(req, res, route);
+    },
+  );
+});
 
 export default router;

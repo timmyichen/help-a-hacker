@@ -8,6 +8,7 @@ import * as passport from 'passport';
 import nextjs from './lib/next';
 import PagesRouter from './routers/pages';
 import auth from 'server/routers/auth';
+import UsersRouter from 'server/routers/users';
 import initDB from './lib/db';
 
 const MongoStore = require('connect-mongo')(session);
@@ -62,6 +63,7 @@ nextjs.nextApp.prepare().then(async () => {
 
   app.use(auth());
   app.use(PagesRouter);
+  app.use(UsersRouter);
 
   app.get('*', (req, res) => {
     nextjs.handle(req, res);
