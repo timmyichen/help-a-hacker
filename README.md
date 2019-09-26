@@ -50,3 +50,11 @@ Restart the server by saving any of the `.ts` files in the `server/` directory.
 Later on, you may have to do this when first running `docker-compose` up after a few
 seconds as the mongodb replica set may need some time to elect a leader (and the
 connection will fail as its trying to do so).
+
+## Connecting to the Docker Mongo Shell
+
+Run this:
+
+```
+docker-compose exec mongo0 mongo mongodb://localhost:27017,mongo1:27017,mongo2:27017/helpahacker?replica Set=rs0
+```

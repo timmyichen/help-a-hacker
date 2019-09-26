@@ -1,7 +1,8 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
-import { withRouter, WithRouterProps } from 'next/router';
+import { useRouter } from 'next/router';
+import LogoutLink from './components/LogoutLink';
 
 const anonRoutes = {
   left: [{ href: '/', label: 'Home' }],
@@ -19,14 +20,12 @@ const authedRoutes = {
   ],
 };
 
-interface Props extends WithRouterProps {
-  isAuthed: boolean;
-}
+function Header({ isAuthed }: { isAuthed: boolean }) {
+  const router = useRouter();
 
-function Header(props: Props) {
-  const currentPage = props.router ? props.router.pathname : '';
+  const currentPage = router ? router.pathname : '';
 
-  const routes = props.isAuthed ? authedRoutes : anonRoutes;
+  const routes = isAuthed ? authedRoutes : anonRoutes;
 
   return (
     <div className="header">
@@ -40,13 +39,19 @@ function Header(props: Props) {
         ))}
       </div>
       <div className="route-group">
-        {routes.right.map(route => (
-          <Route
-            key={`route-${route.href}`}
-            route={route}
-            isActive={currentPage === route.href}
-          />
-        ))}
+        {routes.right.map(route =>
+          route.href === '/logout' ? (
+            <LogoutLink>
+              <a className="route">{route.label}</a>
+            </LogoutLink>
+          ) : (
+            <Route
+              key={`route-${route.href}`}
+              route={route}
+              isActive={currentPage === route.href}
+            />
+          ),
+        )}
       </div>
 
       <style jsx>{`
@@ -92,4 +97,4 @@ const Route = ({
   </Link>
 );
 
-export default withRouter(Header);
+export default Header;

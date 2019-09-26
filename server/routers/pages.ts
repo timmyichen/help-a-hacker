@@ -1,21 +1,27 @@
 import * as express from 'express';
 import * as asyncRouter from 'express-router-async';
 import nextjs from 'server/lib/next';
+import { requiresAnon } from 'server/middleware/auth';
 
 const router = asyncRouter();
 
-router.get('/', (req: express.Request, res: express.Response) => {
+router.get('/', requiresAnon, (req: express.Request, res: express.Response) => {
   nextjs.render(req, res, '/');
 });
 
-router.get('/create', (req: express.Request, res: express.Response) => {
-  nextjs.render(req, res, '/create');
-});
+router.get(
+  '/join',
+  requiresAnon,
+  (req: express.Request, res: express.Response) => {
+    nextjs.render(req, res, '/join');
+  },
+);
 
 router.get(
-  '/create/complete',
+  '/login',
+  requiresAnon,
   (req: express.Request, res: express.Response) => {
-    nextjs.render(req, res, '/created', req.query);
+    nextjs.render(req, res, '/login');
   },
 );
 

@@ -104,7 +104,7 @@ function init() {
           return done(new Error('User not found'));
         }
 
-        const withoutPw = { ...user };
+        const withoutPw = { ...user.toObject() };
         if (withoutPw.password) {
           delete withoutPw.password;
         }
@@ -186,11 +186,6 @@ function init() {
       )(req, res, next);
     },
   );
-
-  router.get('/logout', (req: express.Request, res: express.Response) => {
-    req.logout();
-    res.redirect('/');
-  });
 
   router.post('/logout', (req: express.Request, res: express.Response) => {
     req.logout();
