@@ -19,10 +19,14 @@ const authedRoutes = {
   ],
 };
 
-function Header(props: WithRouterProps) {
+interface Props extends WithRouterProps {
+  isAuthed: boolean;
+}
+
+function Header(props: Props) {
   const currentPage = props.router ? props.router.pathname : '';
 
-  const routes = anonRoutes;
+  const routes = props.isAuthed ? authedRoutes : anonRoutes;
 
   return (
     <div className="header">

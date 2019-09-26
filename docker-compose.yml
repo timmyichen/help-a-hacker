@@ -24,6 +24,8 @@ services:
       - 27017
     restart: always
     entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+    logging:
+      driver: none
   mongo1:
     hostname: mongo1
     container_name: localmongo1
@@ -32,6 +34,8 @@ services:
       - 27017
     restart: always
     entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+    logging:
+      driver: none
   mongo2:
     hostname: mongo2
     container_name: localmongo2
@@ -40,3 +44,5 @@ services:
       - 27017
     restart: always
     entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+    logging:
+      driver: none
