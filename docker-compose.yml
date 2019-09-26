@@ -1,0 +1,42 @@
+version: '3'
+services:
+  app:
+    image: node:10-alpine
+    command: 'npm run dev'
+    volumes:
+      - .:/usr/ydb2/
+    working_dir: /usr/ydb2/
+    ports:
+      - '8000:8000'
+      - '8888:8888'
+    environment:
+      - MONGO_URI=mongodb://mongo0:27017,mongo1:27017,mongo2:27017/helpahacker?replicaSet=rs0
+      - SESSION_SECRET=asefiuhaof3aiuhsedf
+    depends_on:
+      - mongo0
+      - mongo1
+      - mongo2
+  mongo0:
+    hostname: mongo0
+    container_name: localmongo0
+    image: mongo:4.0-xenial
+    expose:
+      - 27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+  mongo1:
+    hostname: mongo1
+    container_name: localmongo1
+    image: mongo:4.0-xenial
+    expose:
+      - 27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+  mongo2:
+    hostname: mongo2
+    container_name: localmongo2
+    image: mongo:4.0-xenial
+    expose:
+      - 27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
