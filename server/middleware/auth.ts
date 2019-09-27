@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { UnauthorizedError } from 'express-response-errors';
 
 export const requiresAuth = ({ error }: { error?: boolean } = {}) => (
   req: express.Request,
@@ -7,7 +8,7 @@ export const requiresAuth = ({ error }: { error?: boolean } = {}) => (
 ) => {
   if (!req.user) {
     if (error) {
-      return res.status(401).send({ message: 'Unauthorized, please log in' });
+      throw new UnauthorizedError('Unauthorized, please log in');
     }
 
     return res.redirect('/login');

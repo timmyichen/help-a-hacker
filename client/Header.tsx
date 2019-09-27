@@ -14,7 +14,7 @@ const anonRoutes = {
 
 const authedRoutes = {
   left: [
-    { href: '/event', label: 'Event' },
+    { href: '/event', label: 'My Event' },
     { href: '/create', label: 'Create' },
   ],
   right: [

@@ -12,6 +12,7 @@ import UsersRouter from 'server/routers/users';
 import EventsRouter from 'server/routers/events';
 import initDB from './lib/db';
 import checkCollectionExistence from './lib/checkCollectionExistence';
+import { responseErrorHandler } from 'express-response-errors/lib/middleware';
 
 const MongoStore = require('connect-mongo')(session);
 dotenv.config();
@@ -69,6 +70,7 @@ nextjs.nextApp.prepare().then(async () => {
   app.use(PagesRouter);
   app.use(UsersRouter);
   app.use(EventsRouter);
+  app.use(responseErrorHandler);
 
   app.get('*', (req, res) => {
     nextjs.handle(req, res);

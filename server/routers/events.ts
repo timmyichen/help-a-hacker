@@ -7,6 +7,7 @@ import { ReqWithUser } from './auth';
 import { pick } from 'lodash';
 import { genEventCodes } from 'server/lib/codeGeneration';
 import * as validator from 'validator';
+import { NotFoundError, BadRequestError } from 'express-response-errors';
 
 const router = express.Router();
 
@@ -14,21 +15,50 @@ router.get(
   '/api/events/find',
   requiresAuth({ error: true }),
   asyncHandler(async (req: ReqWithUser, res: express.Response) => {
-    const { code } = req.query;
+    const { code, role } = req.query;
 
-    if (!code) {
-      return res.status(400).send({ message: 'missing code' });
+    if (!code || !role) {
+      throw new BadRequestError('missing code or role');
     }
 
+    const field = role === 'mentor' ? 'mentorPassword' : 'attendeePassword';
+
     const event = await Event.findOne({
-      $or: [{ attendeePassword: code }, { mentorPassword: code }],
+      [field]: code,
     });
 
     if (!event) {
-      return res.status(404).send({ message: 'Event not found' });
+      throw new NotFoundError('Event not found');
     }
 
     res.json(pick(event, ['_id', 'name', 'city', 'state', 'endsAt']));
+  }),
+);
+
+router.post(
+  '/api/events/register',
+  requiresAuth({ error: true }),
+  asyncHandler(async (req: ReqWithUser, res: express.Response) => {
+    const { eventId, role } = req.body;
+
+    if (req.user.events.length) {
+      throw new BadRequestError('You already belong to an event');
+    }
+
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      throw new NotFoundError('Event not found');
+    }
+
+    await User.updateOne(
+      { _id: req.user._id },
+      {
+        $set: { events: [{ eventId: mongoose.Types.ObjectId(eventId), role }] },
+      },
+    ).exec();
+
+    res.json({ success: true });
   }),
 );
 
@@ -40,25 +70,23 @@ router.post(
     const db: typeof mongoose = req.app.locals.db;
 
     if (!name || !endDate) {
-      return res.status(400).send({ message: 'missing fields' });
+      throw new BadRequestError('Missing fields');
     }
 
     if (req.user.events.length) {
-      return res
-        .status(400)
-        .send({ message: 'You already have an event created ' });
+      throw new BadRequestError('You already belong to an event');
     }
 
     const endsAt = validator.toDate(endDate);
 
     if (!endsAt) {
-      return res.status(400).send({ message: 'Date is not a date' });
+      throw new BadRequestError('Date is not a date');
     }
 
     const now = new Date();
 
     if (validator.isBefore(endDate, now.toString())) {
-      return res.status(400).send({ message: 'Date is in the past' });
+      throw new BadRequestError('Date is in the past');
     }
 
     const [attendeePassword, mentorPassword] = await genEventCodes(2);
@@ -86,16 +114,11 @@ router.post(
 
     const event = events[0];
 
-    console.log(event._id);
-    console.log(typeof event._id);
-
-    const x = await User.updateOne(
+    await User.updateOne(
       { _id: req.user._id },
-      { $set: { events: [String(event._id)] } },
+      { $set: { events: [{ eventId: event._id, role: 'owner' }] } },
       { session },
     ).exec();
-
-    console.log(x);
 
     await session.commitTransaction();
 

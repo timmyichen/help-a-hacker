@@ -13,8 +13,8 @@ export interface Event {
   name: string;
   city: string;
   state: string;
-  attendeePassword: string;
-  mentorPassword: string;
+  attendeePassword?: string;
+  mentorPassword?: string;
 }
 
 export type Role = 'attendee' | 'mentor';

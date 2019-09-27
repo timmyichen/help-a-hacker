@@ -8,8 +8,14 @@ const UserSchema: Schema = new Schema(
     password: String,
     events: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Event',
+        eventId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Event',
+        },
+        role: {
+          type: String,
+          enum: ['attendee', 'mentor', 'owner'],
+        },
       },
     ],
   },

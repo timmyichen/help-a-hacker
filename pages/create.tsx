@@ -50,8 +50,6 @@ export default () => {
         throw new Error(json.message);
       }
 
-      console.log(json);
-
       event = json;
     } catch (e) {
       setLoading(false);
@@ -62,7 +60,6 @@ export default () => {
     }
 
     setLoading(false);
-    console.log(event);
   };
 
   const clearErrors = (keys: Array<keyof typeof defaultErrors>) => {
@@ -134,6 +131,9 @@ export default () => {
         .create-event-page {
           max-width: 400px;
           margin: 50px auto;
+        }
+        .create-event-page :global(.alert-danger) {
+          margin-top: 10px;
         }
       `}</style>
     </div>
