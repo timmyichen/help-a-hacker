@@ -8,11 +8,8 @@ const UserSchema: Schema = new Schema(
     password: String,
     events: [
       {
-        id: {
-          type: Schema.Types.ObjectId,
-          ref: 'Event',
-        },
-        as: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Event',
       },
     ],
   },

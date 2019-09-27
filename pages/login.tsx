@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as validator from 'validator';
-import fetch from 'isomorphic-fetch';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-type InputEvent = React.KeyboardEvent<HTMLInputElement>;
+import { InputEvent } from 'client/types';
+import { post } from 'client/lib/requests';
 
 export default () => {
   const [email, setEmail] = React.useState('');
@@ -21,14 +20,7 @@ export default () => {
     setLoading(true);
 
     try {
-      const res = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await post('/login', { email, password });
 
       if (!res.ok) {
         const body = await res.json();

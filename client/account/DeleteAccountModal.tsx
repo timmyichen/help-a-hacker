@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ModalWrapper from 'client/components/ModalWrapper';
-import fetch from 'isomorphic-fetch';
 import { Modal, Button } from 'react-bootstrap';
+import { post } from 'client/lib/requests';
 
 interface Props {
   isShowing: boolean;
@@ -15,9 +15,7 @@ function DeleteAccountModal({ isShowing, hideModal }: Props) {
     setLoading(true);
 
     try {
-      await fetch('/api/delete_account', {
-        method: 'POST',
-      });
+      await post('/api/delete_account');
     } catch (e) {
       setLoading(false);
       throw e; //TODO messaging

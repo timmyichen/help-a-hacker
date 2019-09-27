@@ -1,11 +1,9 @@
 import * as React from 'react';
-import fetch from 'isomorphic-fetch';
+import { post } from 'client/lib/requests';
 
 export default ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
-    await fetch('/logout', {
-      method: 'POST',
-    });
+    await post('/logout');
 
     window.location.href = '/';
   };

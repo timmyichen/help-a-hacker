@@ -9,7 +9,9 @@ import nextjs from './lib/next';
 import PagesRouter from './routers/pages';
 import auth from 'server/routers/auth';
 import UsersRouter from 'server/routers/users';
+import EventsRouter from 'server/routers/events';
 import initDB from './lib/db';
+import checkCollectionExistence from './lib/checkCollectionExistence';
 
 const MongoStore = require('connect-mongo')(session);
 dotenv.config();
@@ -23,6 +25,8 @@ if (!process.env.SESSION_SECRET) {
 nextjs.nextApp.prepare().then(async () => {
   const db = await initDB();
   console.log('connected to DB');
+
+  await checkCollectionExistence();
 
   app.locals.db = db;
 
@@ -64,6 +68,7 @@ nextjs.nextApp.prepare().then(async () => {
   app.use(auth());
   app.use(PagesRouter);
   app.use(UsersRouter);
+  app.use(EventsRouter);
 
   app.get('*', (req, res) => {
     nextjs.handle(req, res);

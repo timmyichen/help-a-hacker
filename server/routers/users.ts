@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post(
   '/api/delete_account',
-  requiresAuth,
+  requiresAuth({ error: true }),
   asyncHandler(async (req: ReqWithUser, res: express.Response) => {
     await User.findByIdAndDelete(req.user._id).exec();
     req.logout();

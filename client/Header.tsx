@@ -13,7 +13,10 @@ const anonRoutes = {
 };
 
 const authedRoutes = {
-  left: [{ href: '/event', label: 'Event' }],
+  left: [
+    { href: '/event', label: 'Event' },
+    { href: '/create', label: 'Create' },
+  ],
   right: [
     { href: '/account', label: 'Account' },
     { href: '/logout', label: 'Log out' },

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import DeleteAccountModal from 'client/components/account/DeleteAccountModal';
+import DeleteAccountModal from 'client/account/DeleteAccountModal';
 
 export default () => {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);

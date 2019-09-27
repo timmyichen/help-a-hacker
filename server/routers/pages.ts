@@ -5,7 +5,7 @@ import { requiresAnon, requiresAuth } from 'server/middleware/auth';
 const router = express.Router();
 
 const anonRoutes = ['/join', '/login'];
-const authedRoutes = ['/account'];
+const authedRoutes = ['/account', '/create'];
 
 router.get('/', requiresAnon, (req: express.Request, res: express.Response) => {
   nextjs.render(req, res, '/');
@@ -24,7 +24,7 @@ anonRoutes.forEach(route => {
 authedRoutes.forEach(route => {
   router.get(
     route,
-    requiresAuth,
+    requiresAuth(),
     (req: express.Request, res: express.Response) => {
       nextjs.render(req, res, route);
     },
