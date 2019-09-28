@@ -242,4 +242,36 @@ router.post(
   }),
 );
 
+router.post(
+  '/api/events/delete',
+  requiresAuth({ error: true }),
+  asyncHandler(async (req: ReqWithUser, res: express.Response) => {
+    const { eventId } = req.body;
+    const db: typeof mongoose = req.app.locals.db;
+
+    const event = await Event.findById(eventId);
+
+    if (!event || String(event.owner) !== String(req.user._id)) {
+      throw new NotFoundError('Event not found');
+    }
+
+    const session = await db.startSession();
+    session.startTransaction();
+
+    const q = Event.deleteOne({ _id: event._id });
+    q.setOptions({ session });
+    await q.exec();
+
+    await User.updateOne(
+      { _id: req.user._id },
+      { $set: { events: [] } },
+      { session },
+    ).exec();
+
+    await session.commitTransaction();
+
+    res.json({ success: true });
+  }),
+);
+
 export default router;

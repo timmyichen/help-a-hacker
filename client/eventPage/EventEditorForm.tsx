@@ -106,6 +106,34 @@ export default ({ event, onComplete }: Props) => {
     }
   };
 
+  const onDelete = async () => {
+    if (!confirm('Are you sure?') || !event) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await post(`/api/events/delete`, {
+        eventId: event._id,
+      });
+
+      if (!res.ok) {
+        const json = await res.json();
+        throw new Error(json.message);
+      }
+    } catch (e) {
+      setLoading(false);
+      return setErrors({
+        ...errors,
+        general: e.message,
+      });
+    }
+
+    setLoading(false);
+    dispatch(setEvent(null));
+  };
+
   const clearErrors = (keys: Array<keyof typeof defaultErrors>) => {
     const updatedErrors = { ...errors };
     keys.forEach(key => (updatedErrors[key] = ''));
@@ -159,8 +187,21 @@ export default ({ event, onComplete }: Props) => {
           {errors.endDate && <Alert variant="danger">{errors.endDate}</Alert>}
         </Form.Group>
         <div className="controls">
+          {event ? (
+            <Button
+              disabled={loading}
+              onClick={(e: React.FormEvent) => {
+                e.preventDefault();
+                onDelete();
+              }}
+              variant="danger"
+            >
+              Delete
+            </Button>
+          ) : (
+            <div />
+          )}
           <Button
-            type="submit"
             disabled={loading}
             onClick={(e: React.FormEvent) => {
               e.preventDefault();
@@ -182,7 +223,8 @@ export default ({ event, onComplete }: Props) => {
           margin-top: 10px;
         }
         .controls {
-          text-align: right;
+          display: flex;
+          justify-content: space-between;
         }
       `}</style>
     </div>

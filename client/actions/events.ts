@@ -51,7 +51,7 @@ export type EventsAction =
   | IUnresolveHelpRequest
   | IUpdateHelpRequest;
 
-export function setEvent(event: Event): ISetEvent {
+export function setEvent(event: Event | null): ISetEvent {
   return {
     type: 'SET_EVENT',
     event,

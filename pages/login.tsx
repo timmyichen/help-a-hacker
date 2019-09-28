@@ -58,7 +58,7 @@ export default () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Hope you remember it!"
+            placeholder="Enter your password"
             required
             value={password}
             onChange={(e: InputEvent) => {
