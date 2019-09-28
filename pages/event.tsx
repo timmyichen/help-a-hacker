@@ -22,8 +22,6 @@ function EventPage({ event: incomingEvent }: Props) {
   }, []);
 
   const event = useSelector<AppStore, Event | null>(state => state.event);
-  console.log(event);
-  console.log(incomingEvent);
 
   let content;
 
@@ -38,8 +36,6 @@ function EventPage({ event: incomingEvent }: Props) {
   } else if (event.role === 'owner') {
     content = <MentorDashboard event={event} isOwner />;
   }
-
-  console.log(content);
 
   return (
     <div className="event-page">
