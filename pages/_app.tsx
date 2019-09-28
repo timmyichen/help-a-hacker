@@ -11,10 +11,6 @@ class MyApp extends App {
   static async getInitialProps({ Component, ctx }: any) {
     let pageProps = {};
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
     let user;
     if (ctx.req && ctx.req.user) {
       user = ctx.req.user;
@@ -29,6 +25,10 @@ class MyApp extends App {
 
     if (user.error) {
       user = null;
+    }
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx, user);
     }
 
     return { pageProps: { ...pageProps, user } };

@@ -10,6 +10,7 @@ import PagesRouter from './routers/pages';
 import auth from 'server/routers/auth';
 import UsersRouter from 'server/routers/users';
 import EventsRouter from 'server/routers/events';
+import HelpRequestsRouter from 'server/routers/helpRequests';
 import initDB from './lib/db';
 import checkCollectionExistence from './lib/checkCollectionExistence';
 import { responseErrorHandler } from 'express-response-errors/lib/middleware';
@@ -70,6 +71,7 @@ nextjs.nextApp.prepare().then(async () => {
   app.use(PagesRouter);
   app.use(UsersRouter);
   app.use(EventsRouter);
+  app.use(HelpRequestsRouter);
   app.use(responseErrorHandler);
 
   app.get('*', (req, res) => {

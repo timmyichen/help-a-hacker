@@ -1,14 +1,8 @@
-import { AppStore } from 'client/types';
-import { UserAction } from 'client/actions';
+import { combineReducers } from 'redux';
+import { user as userReducer } from './user';
+import { events as eventsReducer } from './events';
 
-export function user(state: AppStore, action: UserAction): AppStore {
-  switch (action.type) {
-    case 'SET_USER':
-      return {
-        ...state,
-        user: action.user,
-      };
-  }
-
-  return state;
-}
+export default combineReducers({
+  user: userReducer,
+  event: eventsReducer,
+});

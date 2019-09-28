@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { InputEvent } from 'client/types';
 import { post } from 'client/lib/requests';
+import { useDispatch } from 'react-redux';
+import { setEvent } from 'client/actions/events';
 
 const defaultErrors = {
   name: '',
@@ -16,6 +18,7 @@ export default () => {
   const [endDate, setEndDate] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState(defaultErrors);
+  const dispatch = useDispatch();
 
   const onCreate = async () => {
     clearErrors(['name', 'endDate', 'general']);
@@ -58,6 +61,8 @@ export default () => {
         general: e.message,
       });
     }
+
+    dispatch(setEvent(event));
 
     setLoading(false);
   };

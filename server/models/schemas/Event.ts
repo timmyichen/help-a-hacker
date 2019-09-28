@@ -13,6 +13,29 @@ const EventSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    helpRequests: [
+      {
+        creator: {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        title: String,
+        description: String,
+        location: String,
+        allowEmail: {
+          type: Boolean,
+          default: false,
+        },
+        createdAt: {
+          type: Date,
+          default: new Date(),
+        },
+        resolved: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

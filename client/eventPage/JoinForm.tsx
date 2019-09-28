@@ -8,7 +8,7 @@ export default () => {
   const [role, setRole] = React.useState<Role | ''>('');
   const [code, setCode] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [event, setEvent] = React.useState<Event>('');
+  const [event, setEvent] = React.useState<Event | null>(null);
   const [showEventModal, setShowEventModal] = React.useState(false);
   const [error, setError] = React.useState('');
 
@@ -56,8 +56,8 @@ export default () => {
         <JoinEventModal
           isShowing={showEventModal}
           hideModal={() => setShowEventModal(false)}
-          event={event}
-          role={role}
+          event={event as Event}
+          role={role as Role}
         />
       )}
       {role ? (
