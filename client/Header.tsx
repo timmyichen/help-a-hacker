@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import LogoutLink from './components/LogoutLink';
 
 const anonRoutes = {
-  left: [{ href: '/', label: 'Home' }],
+  left: [{ href: '/', label: 'Home' }, { href: '/about', label: 'About' }],
   right: [
     { href: '/login', label: 'Log in' },
     { href: '/join', label: 'Join' },
@@ -16,6 +16,7 @@ const authedRoutes = {
   left: [
     { href: '/event', label: 'My Event' },
     { href: '/create', label: 'Create' },
+    { href: '/about', label: 'About' },
   ],
   right: [
     { href: '/account', label: 'Account' },
