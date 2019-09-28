@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Modal } from 'react-bootstrap';
 
 interface Props {
@@ -12,9 +13,10 @@ export default ({ isShowing, onHide, children }: Props) => {
     return null;
   }
 
-  return (
+  return ReactDOM.createPortal(
     <Modal show={isShowing} onHide={onHide}>
       {children}
-    </Modal>
+    </Modal>,
+    document.body,
   );
 };
