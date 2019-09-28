@@ -5,7 +5,7 @@ export default () => {
   return (
     <div className="landing-page">
       <p>
-        Hey, and welcome to Help-A-Hacker. Navigate pages above or visit the
+        Hey, and welcome to Help-A-Hacker. Navigate pages above or visit the{' '}
         <Link href="/about">
           <a>About Page</a>
         </Link>{' '}
@@ -13,6 +13,7 @@ export default () => {
       </p>
       <style jsx>{`
         .landing-page {
+          margin: 50px auto;
           max-width: 600px;
         }
       `}</style>
