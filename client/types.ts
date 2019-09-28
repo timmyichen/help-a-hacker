@@ -30,12 +30,8 @@ export interface Event {
   state?: string;
   helpRequests: Array<HelpRequest>;
   role: Role;
-}
-
-export interface OwnedEvent extends Event {
-  attendeePassword: string;
-  mentorPassword: string;
-  helpRequests: Array<HelpRequest>;
+  attendeePassword?: string;
+  mentorPassword?: string;
 }
 
 export interface AppStore {

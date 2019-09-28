@@ -86,10 +86,10 @@ router.get(
       throw new Error('Event not found');
     }
 
-    const fields = ['_id', 'name', 'city', 'state', 'endsAt'];
+    let fields = ['_id', 'name', 'city', 'state', 'endsAt'];
 
-    if (userEvent.role === 'owner') {
-      fields.concat(['attendeePassword', 'mentorPassword']);
+    if (String(event.owner) === String(req.user._id)) {
+      fields = fields.concat(['attendeePassword', 'mentorPassword']);
     }
 
     let helpRequests = (event.toObject() as RenderedEvent).helpRequests.map(

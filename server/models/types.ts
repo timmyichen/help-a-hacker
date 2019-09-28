@@ -43,7 +43,7 @@ interface BaseEvent extends Document {
   state: string;
   attendeePassword: string;
   mentorPassword: string;
-  owner: IUser;
+  owner: OId;
 }
 
 export interface IEvent extends BaseEvent {

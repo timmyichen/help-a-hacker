@@ -4,6 +4,7 @@ import { InputEvent } from 'client/types';
 import { post } from 'client/lib/requests';
 import { useDispatch } from 'react-redux';
 import { setEvent } from 'client/actions/events';
+import { useRouter } from 'next/router';
 
 const defaultErrors = {
   name: '',
@@ -19,6 +20,7 @@ export default () => {
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState(defaultErrors);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onCreate = async () => {
     clearErrors(['name', 'endDate', 'general']);
@@ -65,6 +67,7 @@ export default () => {
     dispatch(setEvent(event));
 
     setLoading(false);
+    router.push('/event');
   };
 
   const clearErrors = (keys: Array<keyof typeof defaultErrors>) => {
