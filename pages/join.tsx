@@ -7,11 +7,13 @@ import { post } from 'client/lib/requests';
 const defaultErrors = {
   email: '',
   password: '',
+  name: '',
   general: '',
 };
 
 export default () => {
   const [email, setEmail] = React.useState('');
+  const [name, setName] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState(defaultErrors);
@@ -30,6 +32,11 @@ export default () => {
       hasErrored = true;
     }
 
+    if (!name.trim().length || name.length < 2) {
+      errObj.name = 'Your name probably has at least 2 letters in it';
+      hasErrored = true;
+    }
+
     if (hasErrored) {
       setErrors(errObj);
 
@@ -39,7 +46,7 @@ export default () => {
     setLoading(true);
 
     try {
-      const res = await post('/signup', { email, password });
+      const res = await post('/signup', { email, password, name });
 
       if (!res.ok) {
         const body = await res.json();
@@ -85,6 +92,20 @@ export default () => {
             }}
           />
           {errors.email && <Alert variant="danger">{errors.email}</Alert>}
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="name"
+            placeholder="Your public-facing name, or nickname"
+            required
+            value={name}
+            onChange={(e: InputEvent) => {
+              clearErrors(['name']);
+              setName(e.currentTarget.value);
+            }}
+          />
+          {errors.name && <Alert variant="danger">{errors.name}</Alert>}
         </Form.Group>
         <Form.Group>
           <Form.Label>Password</Form.Label>

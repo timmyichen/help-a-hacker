@@ -60,7 +60,7 @@ function init() {
       ) => {
         const { name } = req.body;
 
-        if (!email) {
+        if (!email || !name) {
           return done(null, false, { message: 'missing required field' });
         }
 
