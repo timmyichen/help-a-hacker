@@ -27,7 +27,7 @@ function JoinEventModal({ isShowing, hideModal, event, role }: Props) {
       return;
     }
 
-    setLoading(false);
+    document.location.reload();
   };
 
   const onHide = () => {

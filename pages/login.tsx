@@ -10,7 +10,8 @@ export default () => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  const onLogin = async () => {
+  const onLogin = async (e: React.FormEvent<HTMLDivElement>) => {
+    e.preventDefault();
     if (!validator.isEmail(email)) {
       setError("Your email isn't an email");
 
@@ -39,7 +40,7 @@ export default () => {
   };
 
   return (
-    <div className="join-page">
+    <div className="join-page" onSubmit={onLogin}>
       <Form>
         <Form.Group>
           <Form.Label>Email</Form.Label>
@@ -68,12 +69,7 @@ export default () => {
           />
         </Form.Group>
         {error && <Alert variant="danger">{error}</Alert>}
-        <Button
-          type="submit"
-          variant="primary"
-          onClick={onLogin}
-          disabled={loading}
-        >
+        <Button type="submit" variant="primary" disabled={loading}>
           Log in
         </Button>
       </Form>

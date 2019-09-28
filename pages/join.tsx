@@ -18,7 +18,8 @@ export default () => {
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState(defaultErrors);
 
-  const onSignup = async () => {
+  const onSignup = async (e: React.FormEvent<HTMLDivElement>) => {
+    e.preventDefault();
     clearErrors(['email', 'password', 'general']);
     const errObj = { ...errors };
     let hasErrored = false;
@@ -74,7 +75,7 @@ export default () => {
   };
 
   return (
-    <div className="join-page">
+    <div className="join-page" onSubmit={onSignup}>
       <Form>
         <Form.Text>
           Accounts are temporary. They are deleted a week after the event ends.
@@ -122,12 +123,7 @@ export default () => {
           {errors.password && <Alert variant="danger">{errors.password}</Alert>}
         </Form.Group>
         {errors.general && <Alert variant="danger">{errors.general}</Alert>}
-        <Button
-          type="submit"
-          variant="primary"
-          onClick={onSignup}
-          disabled={loading}
-        >
+        <Button type="submit" variant="primary" disabled={loading}>
           Sign Up
         </Button>
       </Form>
