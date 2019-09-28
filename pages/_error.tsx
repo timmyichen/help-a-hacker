@@ -4,7 +4,7 @@ const email = 'timmy.i.chen.pub@gmail.com';
 
 export default () => (
   <h1>
-    hey you hit an error thats a real shame can you let me know what happened at
+    hey you hit an error thats a real shame can you let me know what happened at{' '}
     <a href={`mailto:${email}`}>{email}</a> thanks
     <style jsx>{`
       h1 {
