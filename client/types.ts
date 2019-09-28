@@ -32,6 +32,7 @@ export interface Event {
   role: Role;
   attendeePassword?: string;
   mentorPassword?: string;
+  endsAt: string;
 }
 
 export interface AppStore {

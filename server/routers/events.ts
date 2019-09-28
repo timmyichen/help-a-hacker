@@ -199,4 +199,47 @@ router.post(
   }),
 );
 
+router.post(
+  '/api/events/update',
+  requiresAuth({ error: true }),
+  asyncHandler(async (req: ReqWithUser, res: express.Response) => {
+    const { eventId, name, city, state, endDate } = req.body;
+
+    if (!name || !endDate) {
+      throw new BadRequestError('Missing fields');
+    }
+
+    const event = await Event.findById(eventId);
+
+    if (!event || String(event.owner) !== String(req.user._id)) {
+      throw new NotFoundError('Event not found');
+    }
+
+    const endsAt = validator.toDate(endDate);
+
+    if (!endsAt) {
+      throw new BadRequestError('Date is not a date');
+    }
+
+    const now = new Date();
+
+    if (validator.isBefore(endDate, now.toString())) {
+      throw new BadRequestError('Date is in the past');
+    }
+
+    await event
+      .update({
+        $set: {
+          name,
+          city,
+          state,
+          endsAt,
+        },
+      })
+      .exec();
+
+    res.json({ success: true });
+  }),
+);
+
 export default router;

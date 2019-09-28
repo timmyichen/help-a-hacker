@@ -5,6 +5,7 @@ import { Form, Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { get } from 'client/lib/requests';
 import { setEvent } from 'client/actions/events';
+import EventEditorModal from './EventEditorModal';
 
 interface Props {
   isOwner?: boolean;
@@ -12,10 +13,10 @@ interface Props {
 }
 
 function MentorDashboard({ isOwner, event }: Props) {
-  console.log(event);
   const location = [event.city, event.state].filter(s => !!s).join(', ');
   const [showAll, setShowAll] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
   const dispatch = useDispatch();
 
   const onToggleShow = async (show: boolean) => {
@@ -39,10 +40,20 @@ function MentorDashboard({ isOwner, event }: Props) {
 
   return (
     <div className="mentor-dashboard">
+      {showEditModal && (
+        <EventEditorModal
+          onHide={() => setShowEditModal(false)}
+          event={event}
+        />
+      )}
       <div className="header">
         <h2>
           {event.name}
-          {isOwner && <a className="text-primary">edit</a>}
+          {isOwner && (
+            <a className="text-primary" onClick={() => setShowEditModal(true)}>
+              edit
+            </a>
+          )}
         </h2>
         {location && <h3>{location}</h3>}
       </div>
@@ -52,15 +63,15 @@ function MentorDashboard({ isOwner, event }: Props) {
           <div className="codes">
             <Card>
               <Card.Header>Mentor Code</Card.Header>
-              <Card.Text>
+              <Card.Body>
                 <pre>{event.mentorPassword}</pre>
-              </Card.Text>
+              </Card.Body>
             </Card>
             <Card>
               <Card.Header>Attendee Code</Card.Header>
-              <Card.Text>
+              <Card.Body>
                 <pre>{event.attendeePassword}</pre>
-              </Card.Text>
+              </Card.Body>
             </Card>
           </div>
           <div className="subtitle">
@@ -134,9 +145,6 @@ function MentorDashboard({ isOwner, event }: Props) {
           text-align: center;
           max-width: 500px;
           margin: 20px auto;
-        }
-        .codes pre {
-          margin: 20px;
         }
         .join-codes {
           margin: 30px;
