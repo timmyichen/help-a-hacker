@@ -40,7 +40,7 @@ router.post(
   '/api/events/register',
   requiresAuth({ error: true }),
   asyncHandler(async (req: ReqWithUser, res: express.Response) => {
-    const { eventId, role } = req.body;
+    const { eventId, role, code } = req.body;
 
     if (req.user.events.length) {
       throw new BadRequestError('You already belong to an event');
@@ -50,6 +50,12 @@ router.post(
 
     if (!event) {
       throw new NotFoundError('Event not found');
+    }
+
+    const field = role === 'mentor' ? 'mentorPassword' : 'attendeePassword';
+
+    if (event[field] !== code) {
+      throw new BadRequestError('Invalid code');
     }
 
     await User.updateOne(

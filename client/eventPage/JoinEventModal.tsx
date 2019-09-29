@@ -9,9 +9,10 @@ interface Props {
   hideModal(): void;
   event: Event;
   role: Role;
+  code: string;
 }
 
-function JoinEventModal({ isShowing, hideModal, event, role }: Props) {
+function JoinEventModal({ isShowing, hideModal, event, role, code }: Props) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
@@ -19,7 +20,7 @@ function JoinEventModal({ isShowing, hideModal, event, role }: Props) {
     setLoading(true);
 
     try {
-      await post('/api/events/register', { eventId: event._id, role });
+      await post('/api/events/register', { eventId: event._id, role, code });
     } catch (e) {
       setLoading(false);
       setError(e.message);

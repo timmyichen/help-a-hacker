@@ -58,6 +58,7 @@ export default () => {
           hideModal={() => setShowEventModal(false)}
           event={event as Event}
           role={role as Role}
+          code={code}
         />
       )}
       {role ? (

@@ -44,6 +44,7 @@ interface BaseEvent extends Document {
   attendeePassword: string;
   mentorPassword: string;
   owner: OId;
+  endsAt: Date;
 }
 
 export interface IEvent extends BaseEvent {
