@@ -58,3 +58,19 @@ Run this:
 ```
 docker-compose exec mongo0 mongo mongodb://localhost:27017,mongo1:27017,mongo2:27017/helpahacker?replica Set=rs0
 ```
+
+# Testing
+
+To run tests, run:
+
+```
+docker-compose exec app npm run jest:watch
+```
+
+To run a test for a particular file, run:
+
+```
+docker-compose exec app npm run jest:watch path/to/file
+```
+
+To turn watchmode off, just remove `:watch`
