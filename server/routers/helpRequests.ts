@@ -25,7 +25,14 @@ router.post(
       throw new NotFoundError('Event not found');
     }
 
-    if (!title.trim() || !description.trim() || !location.trim()) {
+    if (
+      !title ||
+      !description ||
+      !location ||
+      !title.trim() ||
+      !description.trim() ||
+      !location.trim()
+    ) {
       throw new BadRequestError('Missing fields');
     }
 
@@ -89,7 +96,14 @@ router.post(
       throw new NotFoundError('Event not found');
     }
 
-    if (!title.trim() || !description.trim() || !location.trim()) {
+    if (
+      !title ||
+      !description ||
+      !location ||
+      !title.trim() ||
+      !description.trim() ||
+      !location.trim()
+    ) {
       throw new BadRequestError('Missing fields');
     }
 
@@ -97,6 +111,16 @@ router.post(
 
     if (!event) {
       throw new NotFoundError('Event not found');
+    }
+
+    const existingHelpRequest = event.helpRequests.find(
+      helpReq =>
+        String(helpReq.creator) === String(req.user._id) &&
+        String(helpReq._id) === helpRequestId,
+    );
+
+    if (String(event.owner) !== String(req.user._id) && !existingHelpRequest) {
+      throw new NotFoundError('Help request not found');
     }
 
     const updatedEvent = await Event.findOneAndUpdate(

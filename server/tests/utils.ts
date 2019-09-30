@@ -1,10 +1,8 @@
 import { User, Event } from 'server/models';
 import * as faker from 'faker';
 import * as mongoose from 'mongoose';
-import { IEvent, Role, IUser } from 'server/models/types';
+import { IEvent, Role, IUser, HelpRequest } from 'server/models/types';
 import { pick } from 'lodash';
-
-const basicEventFields = ['name', 'city', 'state', 'endsAt'];
 
 export type AnyId = mongoose.Schema.Types.ObjectId | mongoose.Types.ObjectId;
 
@@ -116,7 +114,7 @@ export async function registerUserForEvent({
 
   await User.findOneAndUpdate(
     { _id: userId },
-    { $set: { events: [{ eventId: eventId, role: 'role' }] } },
+    { $set: { events: [{ eventId: eventId, role }] } },
   ).exec();
 }
 
@@ -195,12 +193,41 @@ export function toInputDateString(date: Date) {
 }
 
 export function getBasicEventFields(event: IEvent) {
+  const fields = ['name', 'city', 'state', 'endsAt'];
+
   return {
-    ...pick(event, basicEventFields),
+    ...pick(event, fields),
     _id: String(event._id),
     endsAt:
       typeof event.endsAt === 'object'
         ? event.endsAt.toISOString()
         : event.endsAt,
+  };
+}
+
+export async function getBasicHelpRequestFields(helpRequest: HelpRequest) {
+  const fields = [
+    'title',
+    'description',
+    'location',
+    'allowEmail',
+    'createdAt',
+    'resolved',
+  ];
+
+  const user = await findUser(helpRequest.creator);
+
+  return {
+    ...pick(helpRequest, fields),
+    _id: String(helpRequest._id),
+    creator: {
+      _id: String(user._id),
+      name: user.name,
+      email: helpRequest.allowEmail ? user.email : undefined,
+    },
+    createdAt:
+      typeof helpRequest.createdAt === 'object'
+        ? helpRequest.createdAt.toISOString()
+        : helpRequest.createdAt,
   };
 }

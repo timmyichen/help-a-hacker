@@ -48,6 +48,7 @@ class App {
     this.server.use((req, _, next) => {
       if (this.authedUser) {
         req.user = this.authedUser;
+        req.logout = this.logout;
       }
 
       next();

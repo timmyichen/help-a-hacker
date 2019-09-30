@@ -1,6 +1,6 @@
 # Help-A-Hacker
 
-This is the repo for the client & server of [help-a-hacker.net](https://help-a-hacker.net). Feel free to contribute; we're always looking for improvements.
+This is the repo for the client & server of [help-a-hacker.net](https://help-a-hacker.com). Feel free to contribute; we're always looking for improvements.
 
 The stack used is Nuxt.js and Vue.js on the client, and Express on the server. All in TypeScript.
 
