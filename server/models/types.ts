@@ -2,7 +2,7 @@ import { Document, Schema } from 'mongoose';
 
 export type OId = Schema.Types.ObjectId;
 
-type Role = 'attendee' | 'mentor' | 'owner';
+export type Role = 'attendee' | 'mentor' | 'owner';
 export interface IUser extends Document {
   _id: OId;
   email: string;
