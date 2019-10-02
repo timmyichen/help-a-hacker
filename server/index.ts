@@ -55,11 +55,12 @@ nextjs.nextApp.prepare().then(async () => {
   app.use(
     (
       err: Error,
-      _: express.Request,
+      req: express.Request,
       res: express.Response,
       next: express.NextFunction,
     ) => {
       if (err) {
+        req.logout();
         return res.redirect('/');
       }
 

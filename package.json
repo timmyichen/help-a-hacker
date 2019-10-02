@@ -18,7 +18,8 @@
     "precommit": "lint-staged",
     "jest:setup": "node ./server/tests/setup.js",
     "jest": "NODE_ENV=test npm run jest:setup && ./node_modules/.bin/jest --detectOpenHandles",
-    "jest:watch": "NODE_ENV=test npm run jest:setup && ./node_modules/.bin/jest --watch"
+    "jest:watch": "NODE_ENV=test npm run jest:setup && ./node_modules/.bin/jest --watch",
+    "script": "NODE_ENV=production ts-node --files --transpile-only"
   },
   "author": "",
   "license": "ISC",

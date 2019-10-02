@@ -1,3 +1,7 @@
+import 'module-alias/register';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import initDB from 'server/lib/db';
 import { Event, User } from 'server/models';
 
@@ -14,17 +18,17 @@ async function deleteExpiredEventsAndUsers() {
 
   const eventIds = expiredEvents.map(e => e._id);
 
-  await User.updateMany(
+  const updatedUsers = await User.updateMany(
     {},
     {
-      events: {
-        $pullAll: { _id: eventIds },
+      $pull: {
+        events: { eventId: { $in: eventIds } },
       },
     },
     { session },
   );
 
-  await User.deleteMany(
+  const deletedUsers = await User.deleteMany(
     {
       events: {
         $size: 0,
@@ -36,9 +40,9 @@ async function deleteExpiredEventsAndUsers() {
     { session },
   );
 
-  await Event.deleteMany(
+  const deletedEvents = await Event.deleteMany(
     {
-      endsAt: { $gte: oneWeekAgo },
+      endsAt: { $lte: oneWeekAgo },
     },
     // same as above
     // @ts-ignore
@@ -48,6 +52,13 @@ async function deleteExpiredEventsAndUsers() {
   await session.commitTransaction();
 
   console.log(`success deleteExpiredEventsAndUsers since ${oneWeekAgo}`);
+  console.log(
+    [
+      `updated users: ${updatedUsers.nModified - deletedUsers.deletedCount}`,
+      `deleted users: ${deletedUsers.deletedCount}`,
+      `deleted events: ${deletedEvents.deletedCount}`,
+    ].join('\n'),
+  );
 }
 
 deleteExpiredEventsAndUsers().then(() => process.exit(0));
