@@ -4,12 +4,10 @@
     "**/*.spec.ts",
     ".git",
     "node_modules",
-    ".next"
+    ".next",
+    "server/scripts"
   ],
-  "watch": [
-    "server",
-    "types"
-  ],
+  "watch": ["server", "types"],
   "exec": "npm run dev",
   "ext": "ts"
 }

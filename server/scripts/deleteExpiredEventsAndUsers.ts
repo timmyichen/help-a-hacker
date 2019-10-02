@@ -30,9 +30,16 @@ async function deleteExpiredEventsAndUsers() {
 
   const deletedUsers = await User.deleteMany(
     {
-      events: {
-        $size: 0,
-      },
+      $and: [
+        {
+          events: {
+            $size: 0,
+          },
+        },
+        {
+          createdAt: { $lte: oneWeekAgo },
+        },
+      ],
     },
     // options for deleteMany is implemented but not typed
     // https://github.com/Automattic/mongoose/pull/7860/files
