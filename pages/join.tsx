@@ -130,7 +130,8 @@ export default () => {
       <style jsx>{`
         .join-page :global(form) {
           max-width: 400px;
-          margin: 50px auto;
+          margin: 0 auto;
+          padding-top: 50px;
         }
       `}</style>
     </div>

@@ -8,7 +8,8 @@ export default () => {
       <style jsx>{`
         .create-event-page {
           max-width: 400px;
-          margin: 50px auto;
+          margin: 0 auto;
+          padding-top: 50px;
         }
         .create-event-page :global(.alert-danger) {
           margin-top: 10px;

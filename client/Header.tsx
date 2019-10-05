@@ -62,8 +62,9 @@ function Header({ isAuthed }: { isAuthed: boolean }) {
         .header {
           display: flex;
           height: 40px;
-          border-bottom: 1px solid #ccc;
           justify-content: space-between;
+          z-index: 10;
+          background-color: #d6f6dd;
         }
         .route-group {
           display: flex;
@@ -75,7 +76,7 @@ function Header({ isAuthed }: { isAuthed: boolean }) {
           align-items: center;
           justify-content: center;
           padding: 0 20px;
-          color: black;
+          color: #0e4d45;
           cursor: pointer;
           text-decoration: none;
         }

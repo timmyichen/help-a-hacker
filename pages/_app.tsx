@@ -48,7 +48,18 @@ class MyApp extends App {
             />
           </Head>
           <Header isAuthed={!!user} />
-          <Component {...pageProps} />
+          <div className="component-wrapper">
+            <Component {...pageProps} />
+            <style jsx>{`
+              .component-wrapper {
+                background-image: linear-gradient(#d6f6dd, #b0cab5);
+                min-height: 100vh;
+              }
+              :global(body) {
+                color: #4e5a51;
+              }
+            `}</style>
+          </div>
         </Provider>
       </Container>
     );

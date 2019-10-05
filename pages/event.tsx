@@ -42,7 +42,8 @@ function EventPage({ event: incomingEvent }: Props) {
       {content}
       <style jsx>{`
         .event-page {
-          margin: 50px auto;
+          margin: 0 auto;
+          padding-top: 50px;
         }
       `}</style>
     </div>

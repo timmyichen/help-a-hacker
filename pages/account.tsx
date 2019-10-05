@@ -36,7 +36,8 @@ export default () => {
       <style jsx>{`
         .account-page {
           max-width: 400px;
-          margin: 50px auto;
+          margin: 0 auto;
+          padding-top: 50px;
         }
         .delete-wrapper {
           text-align: center;

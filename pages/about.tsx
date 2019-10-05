@@ -32,7 +32,8 @@ export default () => {
       <style jsx>{`
         .about-page {
           max-width: 400px;
-          margin: 50px auto;
+          margin: 0 auto;
+          padding-top: 50px;
         }
       `}</style>
     </div>
